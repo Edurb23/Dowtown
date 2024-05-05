@@ -131,6 +131,15 @@ function LoginScreen() {
 /////////////////////////////////////// TELA CRIAR CONTA //////////////////////////////////////////////
 
 function CreateAccountScreen() {
+
+  const navigation = useNavigation();
+
+  const ContaCriada = () => {
+    navigation.navigate('DadoUser')
+    alert('CONTA CRIADA!!!')
+  }
+  
+  
   return (
     <View style={styles.container}>
        <Text style={CreatAccont.titulo}>Dowtown</Text>
@@ -141,7 +150,7 @@ function CreateAccountScreen() {
       <TextInput style={CreatAccont.labelEmail} placeholder={'Digite seu Email'} />
       
       <TextInput style={CreatAccont.labelSenha} placeholder={'Digite sua Senha'} />
-      <TouchableOpacity style={CreatAccont.button}>
+      <TouchableOpacity style={CreatAccont.button} onPress={ContaCriada}>
         <Text style={CreatAccont.buttonText}>Criar</Text>
       </TouchableOpacity>
     </View>
