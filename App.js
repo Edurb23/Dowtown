@@ -4,6 +4,12 @@ import { useNavigation } from '@react-navigation/native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Feather } from '@expo/vector-icons';
+import { useState } from 'react';
+import { auth } from './src/firebase.config';
+import { createUserWithEmailAndPassword, sendPasswordResetEmail, signInWithEmailAndPassword } from 'firebase/auth';
+
+;
+
 
 /////////////////////////////////////// TELA HOME //////////////////////////////////////////////
 
@@ -95,7 +101,28 @@ function HomeScreen() {
 /////////////////////////////////////// TELA LOGIN //////////////////////////////////////////////
 
 function LoginScreen() {
+  
+  const [userEmail, setUserEmail]  = useState('');
+  const [userPass, setUserPass]  = useState('');
+  
+
   const navigation = useNavigation();
+
+  function userLogin(){
+   signInWithEmailAndPassword(auth, userEmail, userPass)
+   .then((userCredential) => {
+    const user = userCredential.user;
+    alert('Login feito')
+    navigation.navigate('Conta')
+   })
+   .catch((err) => {
+    const errorCode = err.code;
+    const errorMessage = err.message;
+    alert(errorMessage)
+   })
+  }
+
+ 
 
   const handleOnClick = () => {
     navigation.navigate('CriarConta');
@@ -109,16 +136,17 @@ function LoginScreen() {
     navigation.navigate('Conta')
   }
 
+
   return (
     <View style={login.body}>
       <Text style={styles.titulo}>Dowtown</Text>
       <Text style={login.loginText}>LOGIN</Text>
-      <TextInput style={login.labelEmail} placeholder={'Digite seu email'} />
-      <TextInput style={login.labelSenha} placeholder={'Digite sua Senha'} />
+      <TextInput style={login.labelEmail} placeholder={'Digite seu email'}  keyboardType='email-address' autoCapitalize='none' autoComplete='email' value={userEmail} onChangeText={setUserEmail} />
+      <TextInput style={login.labelSenha} placeholder={'Digite sua Senha'} autoCapitalize='none' secureTextEntry  value={userPass} onChangeText={setUserPass}/>
       <TouchableOpacity onPress={ForgotPassword}>
         <Text style={login.esquecerSenha}>Esqueceu sua senha?</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={login.butto} onPress={Account}>
+      <TouchableOpacity style={login.butto} onPress={userLogin}>
         <Text style={login.buttonText}>Login</Text>
       </TouchableOpacity>
       <TouchableOpacity onPress={handleOnClick} >
@@ -134,9 +162,22 @@ function CreateAccountScreen() {
 
   const navigation = useNavigation();
 
+  const [userName, setUserName] = useState('')
+  const [userNewEmail, setNewEmail] = useState('')
+  const [userNewPass, setUserNewPass] = useState('')
+  
+
   const ContaCriada = () => {
-    navigation.navigate('DadoUser')
-    alert('CONTA CRIADA!!!')
+    if(userName === '' ||userNewEmail === '' || userNewPass === '' ){
+        alert('TODOS OS CAMPOS DEVEM SER PREENCHIDOS');
+        return
+    } else{
+        alert('Sua conta foi criada com sucesso' +  '' + userName);
+        navigation.navigate('Home')
+      
+      
+    }
+    
   }
   
   
@@ -145,11 +186,11 @@ function CreateAccountScreen() {
        <Text style={CreatAccont.titulo}>Dowtown</Text>
        <Text style={CreatAccont.cadastro}>Cadastro</Text>
      
-       <TextInput style={CreatAccont.labelNome} placeholder={'Digite seu Nome Completo'} />
+       <TextInput style={CreatAccont.labelNome} placeholder={'Digite seu Nome Completo'}  value={userName} onChangeText={setUserName}/>
        
-      <TextInput style={CreatAccont.labelEmail} placeholder={'Digite seu Email'} />
+      <TextInput style={CreatAccont.labelEmail} placeholder={'Digite seu Email'} keyboardType='email-address' autoCapitalize='none' autoComplete='email'  value={userNewEmail} onChangeText={setNewEmail}/>
       
-      <TextInput style={CreatAccont.labelSenha} placeholder={'Digite sua Senha'} />
+      <TextInput style={CreatAccont.labelSenha} placeholder={'Digite sua Senha'} autoCapitalize='none' secureTextEntry  value={userNewPass} onChange={setUserNewPass}/>
       <TouchableOpacity style={CreatAccont.button} onPress={ContaCriada}>
         <Text style={CreatAccont.buttonText}>Criar</Text>
       </TouchableOpacity>
@@ -159,13 +200,38 @@ function CreateAccountScreen() {
 
 /////////////////////////////////////// RECUPERAR SENHA  //////////////////////////////////////////////
 function ForgotPasswordScreen() {
+
+  const [userEmail, setUserEmail]  = useState('');
+
+
+  const navigation = useNavigation();
+
+  function RecuperarSenha() {
+    if(userEmail != ''){
+        sendPasswordResetEmail(auth, userEmail)
+        .then(() => {
+          alert('Foi enviado um email para: ' + userEmail + " Verifique sua caixa de email")
+          navigation.navigate('Login')
+        })
+        .catch((err) => {
+          const errorMessage = err.message;
+          alert("Ops! Alguama coisa nao deu certo" + errorMessage )
+        })
+    }else{
+      alert('É preciso informa um email válido para efutar a reefinição de senha'
+     
+      );
+      return;
+    }
+  }
+  
   return (
     <View style={styles.container}>
     <Text style={styles.titulo}>Dowtown</Text>
     <Text style={CreatAccont.cadastro}>Recuperar Senha</Text>
     <Text style={Password.textEmail}> Digite seu email</Text>
-    <TextInput style={Password.labelEmail} placeholder={'Digite seu Email'} />
-    <TouchableOpacity style={Password.button}>
+    <TextInput style={Password.labelEmail} placeholder={'Digite seu Email'}  keyboardAppearance='email-address' autoCapitalize='none' autoComplete='email' value={userEmail} onChangeText={setUserEmail}/>
+    <TouchableOpacity style={Password.button} onPress={RecuperarSenha}>
         <Text style={Password.buttonText}>Enviar</Text>
       </TouchableOpacity>
      
