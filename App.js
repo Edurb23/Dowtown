@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { StyleSheet, Text, View, TextInput, Image, TouchableOpacity} from 'react-native';
+import { StyleSheet, Text, View, TextInput, Image, TouchableOpacity, ToastAndroid} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -16,9 +16,27 @@ import { createUserWithEmailAndPassword, sendPasswordResetEmail, signInWithEmail
 function HomeScreen() {
   const navigation = useNavigation();
 
-  const navigateToOtherScreen = () => {
+   const navigateToOtherScreen = () => {
     navigation.navigate("Login"); // Navega para a tela 'Login'
   };
+
+  const navigateToStreetM = () => {
+    navigation.navigate("StreetM")
+  }
+
+  const navigateToStreetW = () => {
+    navigation.navigate("StreetW")
+  }
+
+  const navigateToCasualM = () => {
+    navigation.navigate("CasualM")
+  }
+
+  const navigateToCasualF = () => {
+    navigation.navigate("CasualF")
+  }
+
+  
 
   return (
     <View style={styles.container}>
@@ -59,7 +77,7 @@ function HomeScreen() {
         </TouchableOpacity>
       </View>
       <View>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={navigateToStreetM}>
           <Image
             source={require('./img/streetman.png')} // Substitua o caminho pela localização correta da imagem
             style={img.imageStreet}
@@ -68,7 +86,7 @@ function HomeScreen() {
         </TouchableOpacity>
       </View>
       <View>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={navigateToStreetW}>
           <Image
             source={require('./img/streetwom.png')} // Substitua o caminho pela localização correta da imagem
             style={img.imageStreetW}
@@ -77,7 +95,7 @@ function HomeScreen() {
         </TouchableOpacity>
       </View>
       <View>
-        <TouchableOpacity onPress={navigateToOtherScreen}>
+        <TouchableOpacity onPress={navigateToCasualM} >
           <Image
             source={require('./img/casualman.png')} // Substitua o caminho pela localização correta da imagem
             style={img.imageCasualM}
@@ -86,7 +104,7 @@ function HomeScreen() {
         </TouchableOpacity>
       </View>
       <View>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={navigateToCasualF}>
           <Image
             source={require('./img/casualwom.png')} // Substitua o caminho pela localização correta da imagem
             style={img.imageCasualW}
@@ -97,6 +115,379 @@ function HomeScreen() {
     </View>
   );
 }
+
+/////////////////////////////////////// TELA STREET WEAR  MASCULINO //////////////////////////////////////////////
+
+function StreetPage(){
+
+  const navigation = useNavigation();
+  
+  const navigateToOtherScreen = () => {
+    navigation.navigate("Login"); // Navega para a tela 'Login'
+  };
+
+  const compras = () => {
+    navigation.navigate("Compra")
+  }
+  
+  
+  return(
+    <View style={product.container}>
+    <Text style={product.downtown}>Downtown</Text>
+    <TouchableOpacity onPress={navigateToOtherScreen}> 
+       <View style={{
+            position: 'absolute',
+            width: 42,
+            height: 42,
+            left: 319,
+            top: 50,
+            backgroundColor: '#D9D9D9',
+            borderRadius: 21,
+            justifyContent: 'center',
+            alignItems: 'center', // Half of width/height to make it a circle
+       }}>
+         <Feather name="user" size={20} color="#000" />
+       
+       </View>
+       </TouchableOpacity>
+    <Text style={product.streetMasculino}>STREET MASCULINO</Text>
+
+
+    <TouchableOpacity>
+    <View style={product.rectangle4} />
+    <Text style={product.novidades}>Novidades</Text>
+    </TouchableOpacity>   
+
+    <TouchableOpacity>
+    <View style={product.rectangle6} />
+    <Text style={product.alta}>Alta</Text>
+    </TouchableOpacity> 
+
+    <TouchableOpacity>
+    <View style={product.rectangle5} />
+    <Text style={product.all}>All</Text>
+    </TouchableOpacity>  
+    
+    <TouchableOpacity>
+    <Image source={require('./img/JeansReta.png')} style={product.image1}/>
+    <Text style={product.jeansReta}>Jeans Reta</Text>
+    <Text style={product.price1}>R$ 250,00</Text>
+
+    </TouchableOpacity>
+    <TouchableOpacity onPress={compras}>
+    <Image source={require('./img/CamisetaOversize.png')} style={product.image2}/>
+    <Text style={product.camisetaOversize}>Camiseta OVERSIZE</Text>
+    <Text style={product.price2}>R$ 150,00</Text>
+      </TouchableOpacity>
+      <TouchableOpacity>
+      <Image source={require('./img/ConjuntoStreet.png')} style={product.image4}/>
+      <Text style={product.conjutoStreet}>CONJUTO STREET</Text>
+    <Text style={product.price3}>R$ 350,00</Text>
+      </TouchableOpacity>
+      <TouchableOpacity>
+      <Image source={require('./img/CamisetaYe.png')} style={product.image3}/>
+  
+    <Text style={product.camisetaYe}>Camiseta YE</Text>
+    <Text style={product.price4}>R$ 150,00</Text>
+      </TouchableOpacity>
+
+  </View>
+  )
+}
+
+/////////////////////////////////////// TELA STREET WEAR  Feminino //////////////////////////////////////////////
+
+function StreetWoPage(){
+
+  const navigation = useNavigation();
+  
+  const navigateToOtherScreen = () => {
+    navigation.navigate("Login"); // Navega para a tela 'Login'
+  };
+
+  return(
+    <View style={product.container}>
+    <Text style={product.downtown}>Downtown</Text>
+    <TouchableOpacity onPress={navigateToOtherScreen}> 
+       <View style={{
+            position: 'absolute',
+            width: 42,
+            height: 42,
+            left: 319,
+            top: 50,
+            backgroundColor: '#D9D9D9',
+            borderRadius: 21,
+            justifyContent: 'center',
+            alignItems: 'center', // Half of width/height to make it a circle
+       }}>
+         <Feather name="user" size={20} color="#000" />
+       
+       </View>
+       </TouchableOpacity>
+    <Text style={product.streetMasculino}>Street Feminino</Text>
+
+
+    <TouchableOpacity>
+    <View style={product.rectangle4} />
+    <Text style={product.novidades}>Novidades</Text>
+    </TouchableOpacity>   
+
+    <TouchableOpacity>
+    <View style={product.rectangle6} />
+    <Text style={product.alta}>Alta</Text>
+    </TouchableOpacity> 
+
+    <TouchableOpacity>
+    <View style={product.rectangle5} />
+    <Text style={product.all}>All</Text>
+    </TouchableOpacity>  
+    
+    <TouchableOpacity>
+    <Image source={require('./img/croppedMoletom.png')} style={product.image1}/>
+    <Text style={product.jeansReta}>Cropped Moletom</Text>
+    <Text style={product.price1}>R$ 250,00</Text>
+
+    </TouchableOpacity>
+    <TouchableOpacity>
+    <Image source={require('./img/calcaGrunge.png')} style={product.image2}/>
+    <Text style={product.camisetaOversize}>Calça Grunge</Text>
+    <Text style={product.price2}>R$ 150,00</Text>
+      </TouchableOpacity>
+      <TouchableOpacity>
+      <Image source={require('./img/calcaCargo.png')} style={product.image4}/>
+      <Text style={product.conjutoStreet}>Calça Cargo</Text>
+    <Text style={product.price3}>R$ 150,00</Text>
+      </TouchableOpacity>
+      <TouchableOpacity>
+      <Image source={require('./img/moletomNarcissist.png')} style={product.image3}/>
+  
+    <Text style={product.camisetaYe}>Moletom Narcissist</Text>
+    <Text style={product.price4}>R$ 450,00</Text>
+      </TouchableOpacity>
+
+  </View>
+  )
+}
+
+
+/////////////////////////////////////// TELA CASUAL  MASCULINO //////////////////////////////////////////////
+
+function CasualPage(){
+
+  const navigation = useNavigation();
+  
+  const navigateToOtherScreen = () => {
+    navigation.navigate("Login"); // Navega para a tela 'Login'
+  };
+
+  return(
+    <View style={product.container}>
+    <Text style={product.downtown}>Downtown</Text>
+    <TouchableOpacity onPress={navigateToOtherScreen}> 
+       <View style={{
+            position: 'absolute',
+            width: 42,
+            height: 42,
+            left: 319,
+            top: 50,
+            backgroundColor: '#D9D9D9',
+            borderRadius: 21,
+            justifyContent: 'center',
+            alignItems: 'center', // Half of width/height to make it a circle
+       }}>
+         <Feather name="user" size={20} color="#000" />
+       
+       </View>
+       </TouchableOpacity>
+    <Text style={product.streetMasculino}>Casual Mascullino</Text>
+
+
+    <TouchableOpacity>
+    <View style={product.rectangle4} />
+    <Text style={product.novidades}>Novidades</Text>
+    </TouchableOpacity>   
+
+    <TouchableOpacity>
+    <View style={product.rectangle6} />
+    <Text style={product.alta}>Alta</Text>
+    </TouchableOpacity> 
+
+    <TouchableOpacity>
+    <View style={product.rectangle5} />
+    <Text style={product.all}>All</Text>
+    </TouchableOpacity>  
+    
+    <TouchableOpacity>
+    <Image source={require('./img/camisetaSocial.png')} style={product.image1}/>
+    <Text style={product.jeansReta}>Camiseta Social</Text>
+    <Text style={product.price1}>R$ 250,00</Text>
+
+    </TouchableOpacity>
+    <TouchableOpacity>
+    <Image source={require('./img/camisetaLisa.png')} style={product.image2}/>
+    <Text style={product.camisetaOversize}>Camiseta Lisa</Text>
+    <Text style={product.price2}>R$ 150,00</Text>
+      </TouchableOpacity>
+      <TouchableOpacity>
+      <Image source={require('./img/conjuntoMoletom.png')} style={product.image4}/>
+      <Text style={product.conjutoStreet}>Conjuto Moletom</Text>
+    <Text style={product.price3}>R$ 350,00</Text>
+      </TouchableOpacity>
+      <TouchableOpacity>
+      <Image source={require('./img/camisaPolo.png')} style={product.image3}/>
+  
+    <Text style={product.camisetaYe}>Camisa Polo</Text>
+    <Text style={product.price4}>R$ 150,00</Text>
+      </TouchableOpacity>
+
+  </View>
+  )
+}
+
+/////////////////////////////////////// TELA CASUAL  Feminino //////////////////////////////////////////////
+
+function CasualWoPage(){
+
+
+  const navigation = useNavigation();
+  
+  const navigateToOtherScreen = () => {
+    navigation.navigate("Login"); // Navega para a tela 'Login'
+  };
+
+
+
+  return(
+    <View style={product.container}>
+    <Text style={product.downtown}>Downtown</Text>
+    <TouchableOpacity onPress={navigateToOtherScreen}> 
+       <View style={{
+            position: 'absolute',
+            width: 42,
+            height: 42,
+            left: 319,
+            top: 50,
+            backgroundColor: '#D9D9D9',
+            borderRadius: 21,
+            justifyContent: 'center',
+            alignItems: 'center', // Half of width/height to make it a circle
+       }}>
+         <Feather name="user" size={20} color="#000" />
+       
+       </View>
+       </TouchableOpacity>
+    <Text style={product.streetMasculino}>Casual Feminino</Text>
+
+
+    <TouchableOpacity>
+    <View style={product.rectangle4} />
+    <Text style={product.novidades}>Novidades</Text>
+    </TouchableOpacity>   
+
+    <TouchableOpacity>
+    <View style={product.rectangle6} />
+    <Text style={product.alta}>Alta</Text>
+    </TouchableOpacity> 
+
+    <TouchableOpacity>
+    <View style={product.rectangle5} />
+    <Text style={product.all}>All</Text>
+    </TouchableOpacity>  
+    
+    <TouchableOpacity>
+    <Image source={require('./img/calcaJeans.png')} style={product.image1}/>
+    <Text style={product.jeansReta}>Calça Jeans</Text>
+    <Text style={product.price1}>R$ 250,00</Text>
+
+    </TouchableOpacity>
+    <TouchableOpacity>
+    <Image source={require('./img/moletomAzul.png')} style={product.image2}/>
+    <Text style={product.camisetaOversize}>Moletom Azul</Text>
+    <Text style={product.price2}>R$ 150,00</Text>
+      </TouchableOpacity>
+      <TouchableOpacity>
+      <Image source={require('./img/moletomCinza.png')} style={product.image4}/>
+      <Text style={product.conjutoStreet}>Moletom Cinza</Text>
+    <Text style={product.price3}>R$ 150,00</Text>
+      </TouchableOpacity>
+      <TouchableOpacity>
+      <Image source={require('./img/conjuntoSocial.png')} style={product.image3}/>
+  
+    <Text style={product.camisetaYe}>conjuto Social</Text>
+    <Text style={product.price4}>R$ 450,00</Text>
+      </TouchableOpacity>
+
+  </View>
+  )
+}
+
+/////////////////////////////////////// TELA DE COMPRA PRODUTO //////////////////////////////////////////////
+
+function Compra(){
+  const navigation = useNavigation();
+
+  const carrinho = () => {
+    navigation.navigate("Carrinho");
+  }
+
+  return(
+    <View style={compras.container}>
+    <Text style={compras.downtown}>Downtown</Text>
+
+    <TouchableOpacity>
+    <View style={compras.ellipse2} />
+    <Text style={compras.pp}>PP</Text>
+      </TouchableOpacity>
+    <TouchableOpacity>
+    <View style={compras.ellipse3} />
+    <Text style={compras.p}>P</Text>
+    </TouchableOpacity>
+     <TouchableOpacity>
+    <View style={compras.ellipse4} />
+    <Text style={compras.m}>M</Text>
+    </TouchableOpacity>
+      <TouchableOpacity>
+    <View style={compras.ellipse5} />
+    <Text style={compras.g}>G</Text>
+    </TouchableOpacity>
+  
+
+    <Image source={require('./img/CamisetaOversize.png')} style={compras.image}/>
+    
+    <View style={compras.rectangle}>
+    
+      <Text style={compras.camisetaOversize}>Camiseta Oversize</Text>
+      <Text style={compras.tamanho}>Tamanho</Text>
+      <Text style={compras.price}>R$ 150,00</Text>
+    </View>
+
+    <View style={compras.ellipse6} />
+    <Text style={compras.cor}>COR</Text>
+
+
+    <TouchableOpacity onPress={carrinho}>
+    <View style={compras.rectangle16}>
+      <Text style={compras.addToCart}>Adicionar ao Carrinho</Text>
+    </View>
+    </TouchableOpacity>
+
+   
+
+    
+
+
+
+
+
+
+    
+  </View>
+  )
+}
+
+
+
+
 
 /////////////////////////////////////// TELA LOGIN //////////////////////////////////////////////
 
@@ -112,7 +503,7 @@ function LoginScreen() {
    signInWithEmailAndPassword(auth, userEmail, userPass)
    .then((userCredential) => {
     const user = userCredential.user;
-    alert('Login feito')
+    ToastAndroid.show('Login feito',  ToastAndroid.CENTER)
     navigation.navigate('Conta')
    })
    .catch((err) => {
@@ -169,10 +560,10 @@ function CreateAccountScreen() {
 
   const ContaCriada = () => {
     if(userName === '' ||userNewEmail === '' || userNewPass === '' ){
-        alert('TODOS OS CAMPOS DEVEM SER PREENCHIDOS');
+        ToastAndroid.show('TODOS OS CAMPOS DEVEM SER PREENCHIDOS',  ToastAndroid.CENTER);
         return
     } else{
-        alert('Sua conta foi criada com sucesso' +  '' + userName);
+        ToastAndroid.show('Sua conta foi criada com sucesso' +  '' + userName,  ToastAndroid.CENTER);
         navigation.navigate('Home')
       
       
@@ -210,7 +601,7 @@ function ForgotPasswordScreen() {
     if(userEmail != ''){
         sendPasswordResetEmail(auth, userEmail)
         .then(() => {
-          alert('Foi enviado um email para: ' + userEmail + " Verifique sua caixa de email")
+          ToastAndroid.show('Foi enviado um email para: ' + userEmail + " Verifique sua caixa de email", ToastAndroid.CENTER)
           navigation.navigate('Login')
         })
         .catch((err) => {
@@ -218,7 +609,8 @@ function ForgotPasswordScreen() {
           alert("Ops! Alguama coisa nao deu certo" + errorMessage )
         })
     }else{
-      alert('É preciso informa um email válido para efutar a reefinição de senha'
+      ToastAndroid.show('É preciso informa um email válido para efutar a reefinição de senha',
+      ToastAndroid.CENTER
      
       );
       return;
@@ -254,7 +646,11 @@ function Account(){
 
   const SairConta = () => {
     navigation.navigate('Home')
-    alert('VOCE SAIU DA SUA CONTA!')
+    ToastAndroid.show("VOCE SAIU DA SUA CONTA",  ToastAndroid.CENTER)
+  }
+
+  const MeusPedidos = () =>{
+    navigation.navigate('MinhasCompras')
   }
 
  
@@ -275,10 +671,10 @@ function Account(){
         <Text style={account.dadosTexto} >SEUS DADOS</Text>
         </View>
       </TouchableOpacity>
-      <TouchableOpacity>
+      <TouchableOpacity onPress={MeusPedidos}>
       <View style={account.labelpedido}></View>
         <View style={account.seusPedidos}>
-        <Text style={account.pedidosText}> SEUS PEDIDOS</Text>
+        <Text style={account.pedidosText}> MEUS PEDIDOS</Text>
         </View>
       </TouchableOpacity>
       <TouchableOpacity>
@@ -287,11 +683,9 @@ function Account(){
         <Text style={account.listaText}> LISTA DE DESEJOS</Text>
         </View>
       </TouchableOpacity>
-      <TouchableOpacity onPress={SairConta}>
-       
-        <View style={account.sair}>
-          <Text style={account}>SAIR DA CONTA</Text>
-        </View>
+      <TouchableOpacity onPress={SairConta} style={account.sair}>
+        <Text style={account.sairTex}>LOGOUT</Text>
+        
       </TouchableOpacity>
     </View>
   )
@@ -339,26 +733,129 @@ function DadosPessoais(){
 
 /////////////////////////////////////// TELA CONTA LOGADA SEUS PEDIDOS //////////////////////////////////////////////
 
+function Pedidos(){
+  return (
+    <View style={bag.container}>
+  <Text style={bag.text}>Downtown</Text>
+  
+  <View style={bag.secondContainer}>
+    {/* Ellipse 4 */}
+    <View style={bag.ellipse4}></View>
+
+    {/* Camisa Lisa */}
+    <Text style={bag.camisaLisa}>Camisa Lisa</Text>
+
+    {/* R$ 150,00 */}
+    <Text style={bag.price}>R$ 150,00</Text>
+
+    {/* M */}
+    <Text style={bag.size}>M</Text>
+
+    {/* Ellipse 8 */}
+    <View style={bag.ellipse8}></View>
+
+    {/* fbc14974f308e5321ad7d2087d3dee34 5 */}
+    <View style={bag.imageContainer}>
+      <Image
+        source={require('./img/CamisetaOversize.png')}
+        style={bag.image}
+      />
+    </View>
+
+    </View>
+
+  </View>
+    
+    
+);
+}
+
+
+
+
 /////////////////////////////////////// TELA CONTA LOGADA SEUA LISTA //////////////////////////////////////////////
 
 
-/////////////////////////////////////// TELA LISTA //////////////////////////////////////////////
 
-function ListaScreen() {
-  return (
-    <View>
-      <Text>CARRINHO</Text>
-    </View>
-  );
-}
 
 /////////////////////////////////////// TELA CARRINHO //////////////////////////////////////////////
 
 function BagScreen() {
+ 
+
+  const navigation = useNavigation();
+
+ 
+  
+ 
+  const ConfimarCompra = () => {
+      ToastAndroid.show("SUA COMPRA FOI CONCLUIDA", ToastAndroid.TOP)
+      navigation.navigate('Home')
+  }
+
+ 
+ 
   return (
-    <View>
-      <Text>CARRINHO</Text>
+      <View style={bag.container}>
+    <Text style={bag.text}>Downtown</Text>
+    
+    <View style={bag.secondContainer}>
+      {/* Ellipse 4 */}
+      <View style={bag.ellipse4}></View>
+
+      {/* Camisa Lisa */}
+      <Text style={bag.camisaLisa}>Camisa Lisa</Text>
+
+      {/* R$ 150,00 */}
+      <Text style={bag.price}>R$ 150,00</Text>
+
+      {/* M */}
+      <Text style={bag.size}>M</Text>
+
+      {/* Ellipse 8 */}
+      <View style={bag.ellipse8}></View>
+
+      {/* fbc14974f308e5321ad7d2087d3dee34 5 */}
+      <View style={bag.imageContainer}>
+        <Image
+          source={require('./img/CamisetaOversize.png')}
+          style={bag.image}
+        />
+      </View>
+
+      <TouchableOpacity>
+
+      <View style={{
+         position: 'absolute',
+         left: 280,
+         top: 135,
+      
+      }}>
+      <Feather name="trash" size={20} color="#000" />
+      </View>
+      </TouchableOpacity>
+      </View>
+      <View style={bag.priceContainer} >
+      {/* Total */}
+      <Text style={bag.total} >Total</Text>
+
+      {/* Rectangle 17 */}
+      <View style={bag.rectangle17} ></View>
+
+      {/* R$ 650,00 */}
+      <Text style={bag.totalprice} >R$ 150,00</Text>
     </View>
+    <View style={bag.containerfinalizarCompra} >
+      {/* Rectangle 16 */}
+      <TouchableOpacity style={bag.botaoCompra} onPress={ConfimarCompra}>
+      {/* Finalizar a Comra */}
+      <Text style={bag.finalizarCompra}>Finalizar a Compra</Text>
+
+      </TouchableOpacity>
+    </View>
+    </View>
+      
+      
   );
 }
 
@@ -376,33 +873,65 @@ export default function App() {
   <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
-        <Stack.Screen name="Lista" component={ListaScreen} options={{ headerShown: false }} />
         <Stack.Screen name="Carrinho" component={BagScreen} options={{ headerShown: false }} />
         <Stack.Screen
           name="Login"
           component={LoginScreen}
-          options={{ headerShown: true, title: 'LOGIN' }} // Mostra o cabeçalho com o título "Login"
+          options={{ headerShown: true, title: 'LOGIN' }} 
         />
         <Stack.Screen
           name="CriarConta"
           component={CreateAccountScreen}
-          options={{ headerShown: true, title: 'Criar Conta' }} // Mostra o cabeçalho com o título "Criar Conta"
+          options={{ headerShown: true, title: 'Criar Conta' }} 
         />
         <Stack.Screen
           name="RecuperarSenha"
           component={ForgotPasswordScreen}
-          options={{ headerShown: true, title: 'Recuperar Senha' }} // Mostra o cabeçalho com o título "Recuperar Senha"
+          options={{ headerShown: true, title: 'Recuperar Senha' }} 
         />
         <Stack.Screen
         name='Conta'
         component={Account}
-        options={{headerShown: true, title: 'Conta'}}  // Mostra o cabeçalho com o título "Recuperar Senha"
+        options={{headerShown: true, title: 'Conta'}}  
         />
          <Stack.Screen
         name='DadoUser'
         component={DadosPessoais}
-        options={{headerShown: true, title: 'Seus Dados'}}  // Mostra o cabeçalho com o título "Recuperar Senha"
+        options={{headerShown: true, title: 'Seus Dados'}} 
         />
+          <Stack.Screen
+        name='StreetM'
+        component={StreetPage}
+        options={{headerShown: false, title: ''}}  
+        />
+         <Stack.Screen
+        name='StreetW'
+        component={StreetWoPage}
+        options={{headerShown: false, title: ''}}  
+        />
+          <Stack.Screen
+        name='CasualM'
+        component={CasualPage}
+        options={{headerShown: false, title: ''}}  
+        />
+           <Stack.Screen
+        name='CasualF'
+        component={CasualWoPage}
+        options={{headerShown: false, title: ''}}  
+        />
+
+        <Stack.Screen
+        name='Compra'
+        component={Compra}
+        options={{headerShown: true, title: ''}}  
+        />
+
+        <Stack.Screen
+        name='MinhasCompras'
+        component={Pedidos}
+        options={{headerShown: true, title: 'MINHAS COMPRAS'}}  
+        />
+       
       </Stack.Navigator>
     </NavigationContainer>
   );
@@ -904,7 +1433,7 @@ const account = StyleSheet.create({
       fontFamily: 'Roboto',
       fontStyle: 'normal',
       fontWeight: '900',
-      fontSize: 13,
+      fontSize: 12,
       lineHeight: 15,
       display: 'flex',
       alignItems: 'center',
@@ -939,7 +1468,7 @@ const account = StyleSheet.create({
       fontFamily: 'Roboto',
       fontStyle: 'normal',
       fontWeight: '900',
-      fontSize: 13,
+      fontSize: 12,
       lineHeight: 15,
       display: 'flex',
       alignItems: 'center',
@@ -973,7 +1502,7 @@ const account = StyleSheet.create({
       fontFamily: 'Roboto',
       fontStyle: 'normal',
       fontWeight: '900',
-      fontSize: 13,
+      fontSize: 12,
       lineHeight: 15,
       display: 'flex',
       alignItems: 'center',
@@ -996,17 +1525,675 @@ const account = StyleSheet.create({
       alignItems: 'center',
     },
     sairTex:{
-      fontFamily: 'Roboto',
-      fontStyle: 'normal',
-      fontWeight: '900',
-      fontSize: 110,
-      lineHeight: 15,
-      display: 'flex',
-      alignItems: 'center',
-      textAlign: 'center',
-      letterSpacing: 0.04,
-      textTransform: 'uppercase',
-      color: '#FFFFFF',
+      color: "#fff",
+      fontSize: 14
     }
 
 })
+
+const product = StyleSheet.create({
+  container: {
+    flex: 1,
+    
+  },
+  downtown: {
+    position: 'absolute',
+    width: 163,
+    height: 41,
+    left: 108.13,
+    top: 50,
+    fontFamily: 'Open Sans',
+    fontStyle: 'normal',
+    fontWeight: '700',
+    fontSize: 30,
+    lineHeight: 41,
+    textAlign: 'center',
+    letterSpacing: -0.333333,
+    color: '#000000',
+    transform: [{ rotate: '0.18deg' }],
+  },
+  streetMasculino: {
+    position: 'absolute',
+    width: 232,
+    height: 28,
+    left: 82,
+    top: 130,
+    fontFamily: 'Roboto',
+    fontStyle: 'normal',
+    fontWeight: '500',
+    fontSize: 24,
+    lineHeight: 28,
+    textAlign: 'center',
+    letterSpacing: -0.333333,
+    color: '#000000',
+  },
+  rectangle4: {
+    position: 'absolute',
+    width: 131,
+    height: 31,
+    left: 34,
+    top: 185,
+    backgroundColor: '#BCA3A3',
+    borderRadius: 18,
+  },
+  rectangle6: {
+    position: 'absolute',
+    width: 84,
+    height: 31,
+    left: 265,
+    top: 185,
+    backgroundColor: '#BCA3A3',
+    borderRadius: 18,
+  },
+  alta: {
+    position: 'absolute',
+    width: 35,
+    height: 23,
+    left: 289,
+    top: 189,
+    fontFamily: 'Roboto',
+    fontStyle: 'normal',
+    fontWeight: '400',
+    fontSize: 20,
+    lineHeight: 23,
+    textAlign: 'center',
+    letterSpacing: -0.333333,
+    color: '#000000',
+  },
+  rectangle5: {
+    position: 'absolute',
+    width: 64,
+    height: 31,
+    left: 183,
+    top: 185,
+    backgroundColor: '#BCA3A3',
+    borderRadius: 18,
+  },
+  all: {
+    position: 'absolute',
+    width: 23,
+    height: 23,
+    left: 203,
+    top: 189,
+    fontFamily: 'Roboto',
+    fontStyle: 'normal',
+    fontWeight: '400',
+    fontSize: 20,
+    lineHeight: 23,
+    textAlign: 'center',
+    letterSpacing: -0.333333,
+    color: '#000000',
+  },
+  novidades: {
+    position: 'absolute',
+    width: 92,
+    height: 23,
+    left: 54,
+    top: 189,
+    fontFamily: 'Roboto',
+    fontStyle: 'normal',
+    fontWeight: '400',
+    fontSize: 20,
+    lineHeight: 23,
+    textAlign: 'center',
+    letterSpacing: -0.333333,
+    color: '#000000',
+  },
+  image1: {
+    position: 'absolute',
+    width: 152,
+    height: 211,
+    left: 27,
+    top: 250,
+    
+    borderRadius: 5,
+  },
+  image2: {
+    position: 'absolute',
+    width: 152,
+    height: 211,
+    left: 199,
+    top: 250,
+    
+    borderRadius: 5,
+  },
+  image3: {
+    position: 'absolute',
+    width: 148,
+    height: 182,
+    left: 199,
+    top: 514,
+    
+    borderRadius: 5,
+  },
+  image4: {
+    position: 'absolute',
+    width: 151,
+    height: 182,
+    left: 27,
+    top: 510,
+   
+    borderRadius: 5,
+  },
+  jeansReta: {
+    position: 'absolute',
+    width: 76,
+    height: 21,
+    left: 34,
+    top: 461,
+    fontFamily: 'Poppins',
+    fontStyle: 'normal',
+    fontWeight: '600',
+    fontSize: 14,
+    lineHeight: 21,
+    textAlign: 'center',
+    letterSpacing: -0.333333,
+    color: '#000000',
+  },
+  price1: {
+    position: 'absolute',
+    width: 67,
+    height: 21,
+    left: 34,
+    top: 482,
+    fontFamily: 'Poppins',
+    fontStyle: 'normal',
+    fontWeight: '600',
+    fontSize: 14,
+    lineHeight: 21,
+    textAlign: 'center',
+    letterSpacing: -0.333333,
+    color: '#9F9797',
+  },
+  camisetaOversize: {
+    position: 'absolute',
+    width: 134,
+    height: 21,
+    left: 199,
+    top: 461,
+    fontFamily: 'Poppins',
+    fontStyle: 'normal',
+    fontWeight: '600',
+    fontSize: 14,
+    lineHeight: 21,
+    textAlign: 'center',
+    letterSpacing: -0.333333,
+    color: '#000000',
+  },
+  price2: {
+    position: 'absolute',
+    width: 64,
+    height: 21,
+    left: 210,
+    top: 482,
+    fontFamily: 'Poppins',
+    fontStyle: 'normal',
+    fontWeight: '600',
+    fontSize: 14,
+    lineHeight: 21,
+    textAlign: 'center',
+    letterSpacing: -0.333333,
+    color: '#9F9797',
+  },
+  conjutoStreet: {
+    position: 'absolute',
+    width: 117,
+    height: 21,
+    left: 27,
+    top: 699,
+    fontFamily: 'Poppins',
+    fontStyle: 'normal',
+    fontWeight: '600',
+    fontSize: 14,
+    lineHeight: 21,
+    textAlign: 'center',
+    letterSpacing: -0.333333,
+    color: '#000000',
+  },
+  price3: {
+    position: 'absolute',
+    width: 67,
+    height: 21,
+    left: 28,
+    top: 720,
+    fontFamily: 'Poppins',
+    fontStyle: 'normal',
+    fontWeight: '600',
+    fontSize: 14,
+    lineHeight: 21,
+    textAlign: 'center',
+    letterSpacing: -0.333333,
+    color: '#9F9797',
+  },
+  camisetaYe: {
+    position: 'absolute',
+    width: 87,
+    height: 21,
+    left: 199,
+    top: 696,
+    fontFamily: 'Poppins',
+    fontStyle: 'normal',
+    fontWeight: '600',
+    fontSize: 14,
+    lineHeight: 21,
+    textAlign: 'center',
+    letterSpacing: -0.333333,
+    color: '#000000',
+  },
+  price4: {
+    position: 'absolute',
+    width: 64,
+    height: 21,
+    left: 199,
+    top: 717,
+    fontFamily: 'Poppins',
+    fontStyle: 'normal',
+    fontWeight: '600',
+    fontSize: 14,
+    lineHeight: 21,
+    textAlign: 'center',
+    letterSpacing: -0.333333,
+    color: '#9F9797',
+  },
+});
+
+
+const compras = StyleSheet.create({
+  container: {
+    flex: 1,
+  
+  },
+  downtown: {
+    position: 'absolute',
+    width: 163,
+    height: 41,
+    left: 108.13,
+    top: 15,
+    fontFamily: 'Open Sans',
+    fontWeight: '700',
+    fontSize: 30,
+    lineHeight: 41,
+    textAlign: 'center',
+    letterSpacing: -0.333333,
+    color: '#000000',
+    transform: [{ rotate: '0.18deg' }],
+  },
+  ellipse2: {
+    position: 'absolute',
+    width: 42,
+    height: 42,
+    left: 17,
+    top: 410,
+    backgroundColor: '#D9D9D9',
+    borderRadius: 21,
+  },
+  pp: {
+    position: 'absolute',
+    width: 18,
+    height: 23,
+    left: 29,
+    top: 420,
+    fontFamily: 'Poppins',
+    fontWeight: '600',
+    fontSize: 13,
+    lineHeight: 22,
+    textAlign: 'center',
+    letterSpacing: -0.333333,
+    color: '#000000',
+  },
+  ellipse5: {
+    position: 'absolute',
+    width: 42,
+    height: 42,
+    left: 185,
+    top: 410,
+    backgroundColor: '#D9D9D9',
+    borderRadius: 21,
+  },
+  ellipse4: {
+    position: 'absolute',
+    width: 42,
+    height: 42,
+    left: 129,
+    top: 410,
+    backgroundColor: '#D9D9D9',
+    borderRadius: 21,
+  },
+  ellipse3: {
+    position: 'absolute',
+    width: 42,
+    height: 42,
+    left: 73,
+    top: 410,
+    backgroundColor: '#D9D9D9',
+    borderRadius: 21,
+  },
+  p: {
+    position: 'absolute',
+    width: 10,
+    height: 23,
+    left: 89,
+    top:  420,
+    fontFamily: 'Poppins',
+    fontWeight: '600',
+    fontSize: 15,
+    lineHeight: 22,
+    textAlign: 'center',
+    letterSpacing: -0.333333,
+    color: '#000000',
+  },
+  m: {
+    position: 'absolute',
+    width: 14,
+    height: 23,
+    left: 143,
+    top:  420,
+    fontFamily: 'Poppins',
+    fontWeight: '600',
+    fontSize: 15,
+    lineHeight: 22,
+    textAlign: 'center',
+    letterSpacing: -0.333333,
+    color: '#000000',
+  },
+  g: {
+    position: 'absolute',
+    width: 12,
+    height: 23,
+    left: 200,
+    top:  420,
+    fontFamily: 'Poppins',
+    fontWeight: '600',
+    fontSize: 15,
+    lineHeight: 22,
+    textAlign: 'center',
+    letterSpacing: -0.333333,
+    color: '#000000',
+  },
+  rectangle: {
+    position: 'absolute',
+    width: 400,
+    height: 258,
+    left: 0,
+    top: 75,
+    
+    borderRadius: 5,
+  },
+
+  image:{
+    position: 'absolute',
+    width: 400,
+    height: 258,
+    left: 0,
+    top: 75,
+    
+    borderRadius: 5,
+  },
+
+
+  camisetaOversize: {
+    position: 'absolute',
+    width: 206,
+    height: 33,
+    left: 3,
+    top: 260,
+    fontFamily: 'Poppins',
+    fontWeight: '600',
+    fontSize: 22,
+    lineHeight: 33,
+    textAlign: 'center',
+    letterSpacing: -0.333333,
+    color: '#000000',
+  },
+  tamanho: {
+    position: 'absolute',
+    width: 107,
+    height: 33,
+    left: 10,
+    top: 300,
+    fontFamily: 'Poppins',
+    fontWeight: '600',
+    fontSize: 22,
+    lineHeight: 33,
+    textAlign: 'center',
+    letterSpacing: -0.333333,
+    color: '#000000',
+  },
+  price: {
+    position: 'absolute',
+    width: 111,
+    height: 36,
+    left: 258,
+    top: 260,
+    fontFamily: 'Poppins',
+    fontWeight: '600',
+    fontSize: 24,
+    lineHeight: 36,
+    textAlign: 'center',
+    letterSpacing: -0.333333,
+    color: '#9F9797',
+  },
+  ellipse6: {
+    position: 'absolute',
+    width: 42,
+    height: 42,
+    left: 22,
+    top: 500,
+    backgroundColor: '#928787',
+    borderRadius: 21,
+  },
+  cor: {
+    position: 'absolute',
+    width: 48,
+    height: 33,
+    left: 17,
+    top: 460,
+    fontFamily: 'Poppins',
+    fontWeight: '600',
+    fontSize: 22,
+    lineHeight: 33,
+    textAlign: 'center',
+    letterSpacing: -0.333333,
+    color: '#000000',
+  },
+  rectangle16: {
+    position: 'absolute',
+    width: 339,
+    height: 75,
+    left: 25,
+    top: 570,
+    backgroundColor: '#000000',
+    borderRadius: 20,
+  },
+  addToCart: {
+    position: 'absolute',
+    width: 263,
+    height: 36,
+    left: 40,
+    top: 18,
+    fontFamily: 'Poppins',
+    fontWeight: '600',
+    fontSize: 24,
+    lineHeight: 36,
+    textAlign: 'center',
+    letterSpacing: -0.333333,
+    color: '#FFFFFF',
+  },
+  ellipse15: {
+    position: 'absolute',
+    width: 42,
+    height: 42,
+    left: 6,
+    top: 105,
+    backgroundColor: '#D9D9D9',
+  },
+
+
+});
+
+const bag = StyleSheet.create({
+  container: {
+    position: 'absolute',
+    width: 163,
+    height: 41,
+    left: 113.13,
+    top: 61,
+    transform: [{ rotate: '0.18deg' }],
+  },
+  secondContainer:{
+    position: 'relative',
+    left: -90,
+    top: -40
+  },
+  text: {
+    fontFamily: 'Open Sans',
+    fontStyle: 'normal',
+    fontWeight: '700',
+    fontSize: 30,
+    lineHeight: 41,
+    textAlign: 'center',
+    letterSpacing: -0.333333,
+    color: '#000000',
+  },
+  ellipse4: {
+    position: 'absolute',
+    width: 42,
+    height: 42,
+    left: 202,
+    top: 199,
+    backgroundColor: '#D9D9D9',
+    borderRadius: 20
+  },
+  camisaLisa: {
+    position: 'absolute',
+    width: 109,
+    height: 27,
+    left: 142,
+    top: 130,
+    fontFamily: 'Poppins',
+    fontWeight: '600',
+    fontSize: 18,
+    lineHeight: 27,
+    textAlign: 'center',
+    letterSpacing: -0.333333,
+    color: '#000000',
+  },
+  price: {
+    position: 'absolute',
+    width: 83,
+    height: 27,
+    left: 155,
+    top: 157,
+    fontFamily: 'Poppins',
+    fontWeight: '600',
+    fontSize: 18,
+    lineHeight: 27,
+    textAlign: 'center',
+    letterSpacing: -0.333333,
+    color: '#9F9797',
+  },
+  size: {
+    position: 'absolute',
+    width: 14,
+    height: 23,
+    left: 216,
+    top: 209,
+    fontFamily: 'Poppins',
+    fontWeight: '600',
+    fontSize: 15,
+    lineHeight: 22,
+    textAlign: 'center',
+    letterSpacing: -0.333333,
+    color: '#000000',
+  },
+  ellipse8: {
+    position: 'absolute',
+    width: 42,
+    height: 42,
+    left: 150,
+    top: 199,
+    backgroundColor: '#222020',
+    borderWidth: 1,
+    borderColor: '#000000',
+    borderRadius: 20,
+  },
+  imageContainer: {
+    position: 'absolute',
+    width: 99.41,
+    height: 138,
+    left: 26,
+    top: 130,
+    borderRadius: 5,
+    overflow: 'hidden',
+  },
+  image: {
+    width: '100%',
+    height: '100%',
+  },
+
+  priceContainer: {
+    position: 'relative',
+  },
+  total: {
+    position: 'absolute',
+    width: 45,
+    height: 27,
+    right: 180,
+    top: 490,
+    fontFamily: 'Poppins',
+    fontStyle: 'normal',
+    fontWeight: '600',
+    fontSize: 18,
+    lineHeight: 27,
+    textAlign: 'center',
+    letterSpacing: -0.333333,
+    color: '#000000',
+  },
+  rectangle17: {
+    position: 'absolute',
+    width: 201,
+    height: 26,
+    left: 50.5,
+    top: 490,
+    backgroundColor: '#D9D9D9',
+  },
+  totalprice: {
+    position: 'absolute',
+    width: 83,
+    height: 27,
+    left: 145.5,
+    top: 490,
+    fontFamily: 'Poppins',
+    fontStyle: 'normal',
+    fontWeight: '300',
+    fontSize: 18,
+    lineHeight: 27,
+    textAlign: 'center',
+    letterSpacing: -0.333333,
+    color: '#000000',
+  },
+    containerfinalizarCompra: {
+    position: 'relative',
+  },
+  botaoCompra:{
+      position: 'absolute',
+    width: 303,
+    height: 60,
+    left: -60,
+    top: 540,
+    backgroundColor: '#000000',
+    borderRadius: 20,
+  },
+  finalizarCompra: {
+    position:'relative',
+    top: 15,
+    fontSize: 24,
+    textAlign: 'center',
+    color: '#FFFFFF',
+    letterSpacing: -0.333333,
+    fontWeight: '600'
+    
+  },
+ 
+  
+});
