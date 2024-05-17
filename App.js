@@ -6,9 +6,9 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { Feather } from '@expo/vector-icons';
 import { useState } from 'react';
 import { auth } from './src/firebase.config';
+import api from './src/api';
 import { createUserWithEmailAndPassword, sendPasswordResetEmail, signInWithEmailAndPassword } from 'firebase/auth';
 
-;
 
 
 /////////////////////////////////////// TELA HOME //////////////////////////////////////////////
@@ -356,6 +356,9 @@ function CasualWoPage(){
   };
 
 
+  
+
+
 
   return(
     <View style={product.container}>
@@ -493,25 +496,38 @@ function Compra(){
 
 function LoginScreen() {
   
-  const [userEmail, setUserEmail]  = useState('');
-  const [userPass, setUserPass]  = useState('');
   
-
   const navigation = useNavigation();
 
-  function userLogin(){
-   signInWithEmailAndPassword(auth, userEmail, userPass)
-   .then((userCredential) => {
-    const user = userCredential.user;
-    ToastAndroid.show('Login feito',  ToastAndroid.CENTER)
-    navigation.navigate('Conta')
-   })
-   .catch((err) => {
-    const errorCode = err.code;
-    const errorMessage = err.message;
-    alert(errorMessage)
-   })
-  }
+  
+  const [userEmail, setUserEmail] = useState('');
+  const [userPass, setUserPass] = useState('');
+
+  const userLogin = async () => {
+    if (!userEmail || !userPass) {
+      ToastAndroid.show('Error', 'Please enter both email and password', ToastAndroid.TOP);
+      return;
+    }
+
+    try {
+      const response = await api.post('/api/users/login', {
+        email: userEmail,
+        password: userPass,
+      });
+
+      const result = response.data;
+
+      if (response.status === 200) {
+        ToastAndroid.show('Success', result.message);
+        navigation.navigate('Conta'); // Navegar para a tela da conta após login bem-sucedido
+      } else {
+        ToastAndroid.show('Error', result.error || 'Login failed', ToastAndroid.TOP);
+      }
+    } catch (error) {
+      console.error(error);
+      ToastAndroid.show('Error', 'An error occurred. Please try again.', ToastAndroid.TOP);
+    }
+  };
 
  
 
@@ -553,41 +569,71 @@ function CreateAccountScreen() {
 
   const navigation = useNavigation();
 
-  const [userName, setUserName] = useState('')
-  const [userNewEmail, setNewEmail] = useState('')
-  const [userNewPass, setUserNewPass] = useState('')
-  
+  const [userName, setUserName] = useState('');
+  const [userNewEmail, setNewEmail] = useState('');
+  const [userNewPass, setUserNewPass] = useState('');
 
-  const ContaCriada = () => {
-    if(userName === '' ||userNewEmail === '' || userNewPass === '' ){
-        ToastAndroid.show('TODOS OS CAMPOS DEVEM SER PREENCHIDOS',  ToastAndroid.CENTER);
-        return
-    } else{
-        ToastAndroid.show('Sua conta foi criada com sucesso' +  '' + userName,  ToastAndroid.CENTER);
+  const ContaCriada = async () => {
+    try {
+      const response = await api.post('/api/users/register', {
+        name: userName,
+        email: userNewEmail,
+        password: userNewPass,
+      });
+
+      if (response.status === 201) {
+        ToastAndroid.show('Conta criada com sucesso!');
         navigation.navigate('Home')
-      
-      
+      } else {
+        alert('Erro ao criar conta');
+      }
+    } catch (error) {
+      if (error.response && error.response.data) {
+        alert('Erro ao criar conta: ' + error.response.data.error);
+      } else {
+        alert('Erro ao criar conta: ' + error.message);
+      }
     }
-    
-  }
-  
-  
+  };
+
+
   return (
     <View style={styles.container}>
-       <Text style={CreatAccont.titulo}>Dowtown</Text>
-       <Text style={CreatAccont.cadastro}>Cadastro</Text>
-     
-       <TextInput style={CreatAccont.labelNome} placeholder={'Digite seu Nome Completo'}  value={userName} onChangeText={setUserName}/>
-       
-      <TextInput style={CreatAccont.labelEmail} placeholder={'Digite seu Email'} keyboardType='email-address' autoCapitalize='none' autoComplete='email'  value={userNewEmail} onChangeText={setNewEmail}/>
-      
-      <TextInput style={CreatAccont.labelSenha} placeholder={'Digite sua Senha'} autoCapitalize='none' secureTextEntry  value={userNewPass} onChange={setUserNewPass}/>
+      <Text style={CreatAccont.titulo}>Downtown</Text>
+      <Text style={CreatAccont.cadastro}>Cadastro</Text>
+      <TextInput
+        style={CreatAccont.labelNome}
+        placeholder="Digite seu Nome Completo"
+        value={userName}
+        onChangeText={setUserName}
+      />
+      <TextInput
+        style={CreatAccont.labelEmail}
+        placeholder="Digite seu Email"
+        keyboardType="email-address"
+        autoCapitalize="none"
+        autoCompleteType="email" // Alterado para autoCompleteType
+        value={userNewEmail}
+        onChangeText={setNewEmail}
+      />
+      <TextInput
+        style={CreatAccont.labelSenha}
+        placeholder="Digite sua Senha"
+        autoCapitalize="none"
+        secureTextEntry
+        value={userNewPass}
+        onChangeText={setUserNewPass}
+      />
       <TouchableOpacity style={CreatAccont.button} onPress={ContaCriada}>
         <Text style={CreatAccont.buttonText}>Criar</Text>
       </TouchableOpacity>
     </View>
   );
-}
+};
+
+  
+
+
 
 /////////////////////////////////////// RECUPERAR SENHA  //////////////////////////////////////////////
 function ForgotPasswordScreen() {
@@ -713,7 +759,7 @@ function DadosPessoais(){
       <TouchableOpacity>
       <View style={account.labelpedido}></View>
         <View style={account.seusPedidos}>
-        <Text style={account.pedidosText}> katarinabluu@gmail.com</Text>
+        <Text style={account.pedidosText}>karina@user.com</Text>
         </View>
       </TouchableOpacity>
       <TouchableOpacity>
@@ -743,13 +789,13 @@ function Pedidos(){
     <View style={bag.ellipse4}></View>
 
     {/* Camisa Lisa */}
-    <Text style={bag.camisaLisa}>Camisa Lisa</Text>
+    <Text style={bag.camisaLisa}>Calça Cargo</Text>
 
     {/* R$ 150,00 */}
     <Text style={bag.price}>R$ 150,00</Text>
 
     {/* M */}
-    <Text style={bag.size}>M</Text>
+    <Text style={bag.size}>P</Text>
 
     {/* Ellipse 8 */}
     <View style={bag.ellipse8}></View>
@@ -757,7 +803,7 @@ function Pedidos(){
     {/* fbc14974f308e5321ad7d2087d3dee34 5 */}
     <View style={bag.imageContainer}>
       <Image
-        source={require('./img/CamisetaOversize.png')}
+        source={require('./img/calcaCargo.png')}
         style={bag.image}
       />
     </View>
