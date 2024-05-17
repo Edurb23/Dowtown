@@ -499,18 +499,17 @@ function LoginScreen() {
   
   const navigation = useNavigation();
 
-  
   const [userEmail, setUserEmail] = useState('');
   const [userPass, setUserPass] = useState('');
 
   const userLogin = async () => {
     if (!userEmail || !userPass) {
-      ToastAndroid.show('Error', 'Please enter both email and password', ToastAndroid.TOP);
+      alert('Error', 'Please enter both email and password');
       return;
     }
 
     try {
-      const response = await api.post('/api/users/login', {
+      const response = await api.post('/users/login', {
         email: userEmail,
         password: userPass,
       });
@@ -518,16 +517,20 @@ function LoginScreen() {
       const result = response.data;
 
       if (response.status === 200) {
-        ToastAndroid.show('Success', result.message);
+        alert('Success', result.message);
+        const token = result.token;
+        // Salve o token localmente para futuras requisições
+        await AsyncStorage.setItem('token', token);
         navigation.navigate('Conta'); // Navegar para a tela da conta após login bem-sucedido
       } else {
-        ToastAndroid.show('Error', result.error || 'Login failed', ToastAndroid.TOP);
+        alert('Error', result.error || 'Login failed');
       }
     } catch (error) {
       console.error(error);
-      ToastAndroid.show('Error', 'An error occurred. Please try again.', ToastAndroid.TOP);
+      alert('Error', 'An error occurred. Please try again.');
     }
   };
+
 
  
 
