@@ -16,7 +16,7 @@ function HomeScreen() {
   const navigation = useNavigation();
 
    const navigateToOtherScreen = () => {
-    navigation.navigate("Conta"); // Navega para a tela 'Login'
+    navigation.navigate("Conta"); 
   };
 
   const navigateToStreetM = () => {
@@ -50,7 +50,7 @@ function HomeScreen() {
             backgroundColor: '#D9D9D9',
             borderRadius: 21,
             justifyContent: 'center',
-            alignItems: 'center', // Half of width/height to make it a circle
+            alignItems: 'center', 
        }}>
          <Feather name="user" size={20} color="#000" />
        
@@ -78,7 +78,7 @@ function HomeScreen() {
       <View>
         <TouchableOpacity onPress={navigateToStreetM}>
           <Image
-            source={require('./img/streetman.png')} // Substitua o caminho pela localização correta da imagem
+            source={require('./img/streetman.png')} 
             style={img.imageStreet}
           />
           <Text style={img.streetText}>Street Masculino</Text>
@@ -87,7 +87,7 @@ function HomeScreen() {
       <View>
         <TouchableOpacity onPress={navigateToStreetW}>
           <Image
-            source={require('./img/streetwom.png')} // Substitua o caminho pela localização correta da imagem
+            source={require('./img/streetwom.png')} 
             style={img.imageStreetW}
           />
           <Text style={img.streetTextW}>Street Feminino</Text>
@@ -96,7 +96,7 @@ function HomeScreen() {
       <View>
         <TouchableOpacity onPress={navigateToCasualM} >
           <Image
-            source={require('./img/casualman.png')} // Substitua o caminho pela localização correta da imagem
+            source={require('./img/casualman.png')}
             style={img.imageCasualM}
           />
           <Text style={img.casualMasculinoText}>Casual Masculino</Text>
@@ -105,7 +105,7 @@ function HomeScreen() {
       <View>
         <TouchableOpacity onPress={navigateToCasualF}>
           <Image
-            source={require('./img/casualwom.png')} // Substitua o caminho pela localização correta da imagem
+            source={require('./img/casualwom.png')} 
             style={img.imageCasualW}
           />
           <Text style={img.casualTextW}>Casual Feminino</Text>
@@ -122,7 +122,7 @@ function StreetPage(){
   const navigation = useNavigation();
   
   const navigateToOtherScreen = () => {
-    navigation.navigate("Conta"); // Navega para a tela 'Login'
+    navigation.navigate("Conta");
   };
 
   const compras = () => {
@@ -143,7 +143,7 @@ function StreetPage(){
             backgroundColor: '#D9D9D9',
             borderRadius: 21,
             justifyContent: 'center',
-            alignItems: 'center', // Half of width/height to make it a circle
+            alignItems: 'center', 
        }}>
          <Feather name="user" size={20} color="#000" />
        
@@ -202,7 +202,7 @@ function StreetWoPage(){
 
  
   const navigateToOtherScreen = () => {
-    navigation.navigate("Conta"); // Navega para a tela 'Login'
+    navigation.navigate("Conta"); 
   };
 
   const compra = () => {
@@ -222,7 +222,7 @@ function StreetWoPage(){
             backgroundColor: '#D9D9D9',
             borderRadius: 21,
             justifyContent: 'center',
-            alignItems: 'center', // Half of width/height to make it a circle
+            alignItems: 'center',
        }}>
          <Feather name="user" size={20} color="#000" />
        
@@ -281,7 +281,7 @@ function CasualPage(){
   const navigation = useNavigation();
   
   const navigateToOtherScreen = () => {
-    navigation.navigate("Conta"); // Navega para a tela 'Login'
+    navigation.navigate("Conta");
   };
 
   return(
@@ -297,7 +297,7 @@ function CasualPage(){
             backgroundColor: '#D9D9D9',
             borderRadius: 21,
             justifyContent: 'center',
-            alignItems: 'center', // Half of width/height to make it a circle
+            alignItems: 'center', 
        }}>
          <Feather name="user" size={20} color="#000" />
        
@@ -356,7 +356,7 @@ function CasualWoPage(){
   const navigation = useNavigation();
   
   const navigateToOtherScreen = () => {
-    navigation.navigate("Conta"); // Navega para a tela 'Login'
+    navigation.navigate("Conta"); 
   };
 
 
@@ -377,7 +377,7 @@ function CasualWoPage(){
             backgroundColor: '#D9D9D9',
             borderRadius: 21,
             justifyContent: 'center',
-            alignItems: 'center', // Half of width/height to make it a circle
+            alignItems: 'center', 
        }}>
          <Feather name="user" size={20} color="#000" />
        
@@ -523,9 +523,9 @@ function LoginScreen() {
       if (response.status === 200) {
         alert('Login efetuado', result.message);
         const token = result.token;
-        // Salve o token localmente para futuras requisições
+        
         await AsyncStorage.setItem('token', token);
-        navigation.navigate('Home'); // Navegar para a tela da conta após login bem-sucedido
+        navigation.navigate('Home'); 
       } else {
         alert('Error', result.error || 'OPS!!! Deu algo de errado');
       }
@@ -625,7 +625,7 @@ function CreateAccountScreen() {
         placeholder="Digite seu Email"
         keyboardType="email-address"
         autoCapitalize="none"
-        autoCompleteType="email" // Alterado para autoCompleteType
+        autoCompleteType="email" 
         value={userEmail}
         onChangeText={setUserEmail}
       />
@@ -665,7 +665,7 @@ function ForgotPasswordScreen() {
 
       if (response.status === 200) {
         Alert.alert('Success', 'Foi enviado no seu e-mail as informações para troca de senha');
-        navigation.navigate('Login'); // Navegar de volta para a tela de login
+        navigation.navigate('Login'); 
       } else {
         Alert.alert('Error', response.data.error || 'OPS!!! Deu algo de errado');
       }
@@ -829,22 +829,22 @@ function Pedidos(){
   <Text style={bag.text}>Downtown</Text>
   
   <View style={bag.secondContainer}>
-    {/* Ellipse 4 */}
+    
     <View style={bag.ellipse4}></View>
 
-    {/* Camisa Lisa */}
+   
     <Text style={bag.camisaLisa}>Calça Cargo</Text>
 
-    {/* R$ 150,00 */}
+  
     <Text style={bag.price}>R$ 150,00</Text>
 
-    {/* M */}
+   
     <Text style={bag.size}>P</Text>
 
-    {/* Ellipse 8 */}
+   
     <View style={bag.ellipse8}></View>
 
-    {/* fbc14974f308e5321ad7d2087d3dee34 5 */}
+   
     <View style={bag.imageContainer}>
       <Image
         source={require('./img/calcaCargo.png')}
@@ -890,7 +890,7 @@ function Entrega(){
 
       if (response.status === 200) {
         ToastAndroid.show('Compras realizada com sucesso', ToastAndroid.SHORT);
-        // Você pode navegar para outra tela ou realizar outras ações aqui
+       
         navigation.navigate('Home');
       } else {
         alert('Erro', result.error || 'OPS!!! Deu algo de errado ');
@@ -955,22 +955,22 @@ function BagScreen() {
     <Text style={bag.text}>Downtown</Text>
     
     <View style={bag.secondContainer}>
-      {/* Ellipse 4 */}
+   
       <View style={bag.ellipse4}></View>
 
-      {/* Camisa Lisa */}
+   
       <Text style={bag.camisaLisa}>Calça cargo</Text>
 
-      {/* R$ 150,00 */}
+     
       <Text style={bag.price}>R$ 150,00</Text>
 
-      {/* M */}
+    
       <Text style={bag.size}>M</Text>
 
-      {/* Ellipse 8 */}
+   
       <View style={bag.ellipse8}></View>
 
-      {/* fbc14974f308e5321ad7d2087d3dee34 5 */}
+    
       <View style={bag.imageContainer}>
         <Image
           source={require('./img/calcaCargo.png')}
@@ -991,19 +991,19 @@ function BagScreen() {
       </TouchableOpacity>
       </View>
       <View style={bag.priceContainer} >
-      {/* Total */}
+  
       <Text style={bag.total} >Total</Text>
 
-      {/* Rectangle 17 */}
+   
       <View style={bag.rectangle17} ></View>
 
-      {/* R$ 650,00 */}
+     
       <Text style={bag.totalprice} >R$ 150,00</Text>
     </View>
     <View style={bag.containerfinalizarCompra} >
-      {/* Rectangle 16 */}
+
       <TouchableOpacity style={bag.botaoCompra} onPress={Entrega}>
-      {/* Finalizar a Comra */}
+   
       <Text style={bag.finalizarCompra}>Finalizar a Compra</Text>
 
       </TouchableOpacity>
