@@ -1,13 +1,12 @@
-import * as React from 'react';
-import { StyleSheet, Text, View, TextInput, Image, TouchableOpacity, ToastAndroid} from 'react-native';
+import React, { useContext } from 'react';
+import { StyleSheet, Text, View, TextInput, Image, TouchableOpacity, ToastAndroid, Alert} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Feather } from '@expo/vector-icons';
-import { useState } from 'react';
-import { auth } from './src/firebase.config';
+import { useState , useEffect} from 'react';
 import api from './src/api';
-import { createUserWithEmailAndPassword, sendPasswordResetEmail, signInWithEmailAndPassword } from 'firebase/auth';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 
@@ -17,7 +16,7 @@ function HomeScreen() {
   const navigation = useNavigation();
 
    const navigateToOtherScreen = () => {
-    navigation.navigate("Login"); // Navega para a tela 'Login'
+    navigation.navigate("Conta"); // Navega para a tela 'Login'
   };
 
   const navigateToStreetM = () => {
@@ -123,7 +122,7 @@ function StreetPage(){
   const navigation = useNavigation();
   
   const navigateToOtherScreen = () => {
-    navigation.navigate("Login"); // Navega para a tela 'Login'
+    navigation.navigate("Conta"); // Navega para a tela 'Login'
   };
 
   const compras = () => {
@@ -200,10 +199,15 @@ function StreetPage(){
 function StreetWoPage(){
 
   const navigation = useNavigation();
-  
+
+ 
   const navigateToOtherScreen = () => {
-    navigation.navigate("Login"); // Navega para a tela 'Login'
+    navigation.navigate("Conta"); // Navega para a tela 'Login'
   };
+
+  const compra = () => {
+    navigation.navigate("Compra")
+  }
 
   return(
     <View style={product.container}>
@@ -253,7 +257,7 @@ function StreetWoPage(){
     <Text style={product.camisetaOversize}>Calça Grunge</Text>
     <Text style={product.price2}>R$ 150,00</Text>
       </TouchableOpacity>
-      <TouchableOpacity>
+      <TouchableOpacity onPress={compra}>
       <Image source={require('./img/calcaCargo.png')} style={product.image4}/>
       <Text style={product.conjutoStreet}>Calça Cargo</Text>
     <Text style={product.price3}>R$ 150,00</Text>
@@ -277,7 +281,7 @@ function CasualPage(){
   const navigation = useNavigation();
   
   const navigateToOtherScreen = () => {
-    navigation.navigate("Login"); // Navega para a tela 'Login'
+    navigation.navigate("Conta"); // Navega para a tela 'Login'
   };
 
   return(
@@ -352,7 +356,7 @@ function CasualWoPage(){
   const navigation = useNavigation();
   
   const navigateToOtherScreen = () => {
-    navigation.navigate("Login"); // Navega para a tela 'Login'
+    navigation.navigate("Conta"); // Navega para a tela 'Login'
   };
 
 
@@ -455,11 +459,11 @@ function Compra(){
     </TouchableOpacity>
   
 
-    <Image source={require('./img/CamisetaOversize.png')} style={compras.image}/>
+    <Image source={require('./img/calcaCargo.png')} style={compras.image}/>
     
     <View style={compras.rectangle}>
     
-      <Text style={compras.camisetaOversize}>Camiseta Oversize</Text>
+      <Text style={compras.camisetaOversize}> Calça Cargo</Text>
       <Text style={compras.tamanho}>Tamanho</Text>
       <Text style={compras.price}>R$ 150,00</Text>
     </View>
@@ -504,12 +508,12 @@ function LoginScreen() {
 
   const userLogin = async () => {
     if (!userEmail || !userPass) {
-      alert('Error', 'Please enter both email and password');
+      alert('Error', 'Coloque um email e uma senha');
       return;
     }
 
     try {
-      const response = await api.post('/users/login', {
+      const response = await api.post('/api/users/login', {
         email: userEmail,
         password: userPass,
       });
@@ -517,17 +521,17 @@ function LoginScreen() {
       const result = response.data;
 
       if (response.status === 200) {
-        alert('Success', result.message);
+        alert('Login efetuado', result.message);
         const token = result.token;
         // Salve o token localmente para futuras requisições
         await AsyncStorage.setItem('token', token);
-        navigation.navigate('Conta'); // Navegar para a tela da conta após login bem-sucedido
+        navigation.navigate('Home'); // Navegar para a tela da conta após login bem-sucedido
       } else {
-        alert('Error', result.error || 'Login failed');
+        alert('Error', result.error || 'OPS!!! Deu algo de errado');
       }
     } catch (error) {
       console.error(error);
-      alert('Error', 'An error occurred. Please try again.');
+      ToastAndroid.show('Login invalido', ToastAndroid.LONG);
     }
   };
 
@@ -570,35 +574,41 @@ function LoginScreen() {
 
 function CreateAccountScreen() {
 
+  const [userName, setUserName] = useState('');
+  const [userEmail, setUserEmail] = useState('');
+  const [userPass, setUserPass] = useState('');
+
   const navigation = useNavigation();
 
-  const [userName, setUserName] = useState('');
-  const [userNewEmail, setNewEmail] = useState('');
-  const [userNewPass, setUserNewPass] = useState('');
+  const handleRegister = async () => {
+    if (!userName || !userEmail || !userPass) {
+      Alert.alert('Error', 'Preencha todos os campos');
+      return;
+    }
 
-  const ContaCriada = async () => {
     try {
       const response = await api.post('/api/users/register', {
         name: userName,
-        email: userNewEmail,
-        password: userNewPass,
+        email: userEmail,
+        password: userPass,
       });
 
+      const result = response.data;
+
       if (response.status === 201) {
-        ToastAndroid.show('Conta criada com sucesso!');
-        navigation.navigate('Home')
+        ToastAndroid.show('Conta Criada com Sucesso', ToastAndroid.SHORT);
+        const token = result.token;
+       
+        await AsyncStorage.setItem('token', token);
+        navigation.navigate('Login'); 
       } else {
-        alert('Erro ao criar conta');
+        Alert.alert('Error', result.error || 'OPS!!! Algo deu errado');
       }
     } catch (error) {
-      if (error.response && error.response.data) {
-        alert('Erro ao criar conta: ' + error.response.data.error);
-      } else {
-        alert('Erro ao criar conta: ' + error.message);
-      }
+      console.error(error);
+      Alert.alert('Error', 'Ocorreu um erro. Por favor, tente novamente.');
     }
   };
-
 
   return (
     <View style={styles.container}>
@@ -616,18 +626,18 @@ function CreateAccountScreen() {
         keyboardType="email-address"
         autoCapitalize="none"
         autoCompleteType="email" // Alterado para autoCompleteType
-        value={userNewEmail}
-        onChangeText={setNewEmail}
+        value={userEmail}
+        onChangeText={setUserEmail}
       />
       <TextInput
         style={CreatAccont.labelSenha}
         placeholder="Digite sua Senha"
         autoCapitalize="none"
         secureTextEntry
-        value={userNewPass}
-        onChangeText={setUserNewPass}
+        value={userPass}
+        onChangeText={setUserPass}
       />
-      <TouchableOpacity style={CreatAccont.button} onPress={ContaCriada}>
+      <TouchableOpacity style={CreatAccont.button} onPress={handleRegister}>
         <Text style={CreatAccont.buttonText}>Criar</Text>
       </TouchableOpacity>
     </View>
@@ -641,30 +651,29 @@ function CreateAccountScreen() {
 /////////////////////////////////////// RECUPERAR SENHA  //////////////////////////////////////////////
 function ForgotPasswordScreen() {
 
-  const [userEmail, setUserEmail]  = useState('');
-
-
+  const [userEmail, setUserEmail] = useState('');
   const navigation = useNavigation();
 
-  function RecuperarSenha() {
-    if(userEmail != ''){
-        sendPasswordResetEmail(auth, userEmail)
-        .then(() => {
-          ToastAndroid.show('Foi enviado um email para: ' + userEmail + " Verifique sua caixa de email", ToastAndroid.CENTER)
-          navigation.navigate('Login')
-        })
-        .catch((err) => {
-          const errorMessage = err.message;
-          alert("Ops! Alguama coisa nao deu certo" + errorMessage )
-        })
-    }else{
-      ToastAndroid.show('É preciso informa um email válido para efutar a reefinição de senha',
-      ToastAndroid.CENTER
-     
-      );
+  const handleForgotPassword = async () => {
+    if (!userEmail) {
+      Alert.alert('Error', 'Please enter your email');
       return;
     }
-  }
+
+    try {
+      const response = await api.post('/api/users/forgot-password', { email: userEmail });
+
+      if (response.status === 200) {
+        Alert.alert('Success', 'Foi enviado no seu e-mail as informações para troca de senha');
+        navigation.navigate('Login'); // Navegar de volta para a tela de login
+      } else {
+        Alert.alert('Error', response.data.error || 'OPS!!! Deu algo de errado');
+      }
+    } catch (error) {
+      console.error(error);
+      Alert.alert('Error', 'Ocorreu um erro. Por favor, tente novamente.');
+    }
+  };
   
   return (
     <View style={styles.container}>
@@ -672,7 +681,7 @@ function ForgotPasswordScreen() {
     <Text style={CreatAccont.cadastro}>Recuperar Senha</Text>
     <Text style={Password.textEmail}> Digite seu email</Text>
     <TextInput style={Password.labelEmail} placeholder={'Digite seu Email'}  keyboardAppearance='email-address' autoCapitalize='none' autoComplete='email' value={userEmail} onChangeText={setUserEmail}/>
-    <TouchableOpacity style={Password.button} onPress={RecuperarSenha}>
+    <TouchableOpacity style={Password.button} onPress={handleForgotPassword}>
         <Text style={Password.buttonText}>Enviar</Text>
       </TouchableOpacity>
      
@@ -685,23 +694,23 @@ function ForgotPasswordScreen() {
 function Account(){
 
 
-  
   const navigation = useNavigation();
-
+ 
 
   const AcessarDadaos = () => {
-    navigation.navigate('DadoUser')
+    navigation.navigate('DadoUser');
   }
 
-  const SairConta = () => {
-    navigation.navigate('Home')
-    ToastAndroid.show("VOCE SAIU DA SUA CONTA",  ToastAndroid.CENTER)
+
+  const SairConte = () => {
+    navigation.navigate('Login')
   }
 
-  const MeusPedidos = () =>{
-    navigation.navigate('MinhasCompras')
-  }
 
+
+  const MeusPedidos = () => {
+    navigation.navigate('MinhasCompras');
+  }
  
 
   return(
@@ -709,7 +718,7 @@ function Account(){
       <Text style={styles.titulo}>Dowtown</Text>
       <View style={account.foto}>
         <Image
-        source={require('./img/karina.png')}
+        source={require('./img/perfil.jpg')}
         style={{ width: '100%', height: '100%' }}
         resizeMode="cover"
         />
@@ -732,7 +741,7 @@ function Account(){
         <Text style={account.listaText}> LISTA DE DESEJOS</Text>
         </View>
       </TouchableOpacity>
-      <TouchableOpacity onPress={SairConta} style={account.sair}>
+      <TouchableOpacity  onPress={SairConte} style={account.sair}>
         <Text style={account.sairTex}>LOGOUT</Text>
         
       </TouchableOpacity>
@@ -743,12 +752,46 @@ function Account(){
 /////////////////////////////////////// TELA CONTA LOGADA SEUS DADOS //////////////////////////////////////////////
 
 function DadosPessoais(){ 
-    return(
+    
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const token = await AsyncStorage.getItem('token');
+        if (!token) {
+          throw new Error('No token found');
+        }
+
+        const response = await api.get('/api/user', {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+
+        setUser(response.data);
+      } catch (error) {
+        console.error('Failed to fetch user data', error);
+      }
+    };
+
+    fetchUserData();
+  }, []);
+
+  if (!user) {
+    return <Text>Loading...</Text>;
+  }
+
+
+  
+  
+  
+  return(
       <View style={styles.container}>
       <Text style={styles.titulo}>Dowtown</Text>
       <View style={account.foto}>
         <Image
-        source={require('./img/karina.png')}
+        source={require('./img/perfil.jpg')}
         style={{ width: '100%', height: '100%' }}
         resizeMode="cover"
         />
@@ -756,21 +799,19 @@ function DadosPessoais(){
       <TouchableOpacity>
         <View style={account.labeldado}></View>
         <View style={account.dados}>
-        <Text style={account.dadosTexto} >KARINA </Text>
+        <Text style={account.dadosTexto} > {user.name} </Text>
         </View>
       </TouchableOpacity>
       <TouchableOpacity>
+    
       <View style={account.labelpedido}></View>
-        <View style={account.seusPedidos}>
-        <Text style={account.pedidosText}>karina@user.com</Text>
+        
+      <View style={account.seusPedidos}>
+        <Text style={account.pedidosText}>{user.email}</Text>
         </View>
+        
       </TouchableOpacity>
-      <TouchableOpacity>
-        <View style={account.labellista}></View>
-        <View style={account.lista}>
-        <Text style={account.listaText}> SÃO PAULO , SP</Text>
-        </View>
-      </TouchableOpacity>
+      
      
     </View>
 
@@ -822,7 +863,72 @@ function Pedidos(){
 
 
 
-/////////////////////////////////////// TELA CONTA LOGADA SEUA LISTA //////////////////////////////////////////////
+/////////////////////////////////////// TELA Entrega //////////////////////////////////////////////
+
+
+function Entrega(){
+  
+  const navigation = useNavigation();
+  const [endereco, setEndereco] = useState('');
+  const [numero, setNumero] = useState('');
+  const [complemento, setComplemento] = useState('');
+
+  const concluir = async () => {
+    if (!endereco || !numero || !complemento) {
+      alert('Erro', 'Preencha todos os campos');
+      return;
+    }
+
+    try {
+      const response = await api.post('/entrega', {
+        endereco,
+        numero,
+        complemento,
+      });
+
+      const result = response.data;
+
+      if (response.status === 200) {
+        ToastAndroid.show('Compras realizada com sucesso', ToastAndroid.SHORT);
+        // Você pode navegar para outra tela ou realizar outras ações aqui
+        navigation.navigate('Home');
+      } else {
+        alert('Erro', result.error || 'OPS!!! Deu algo de errado ');
+      }
+    } catch (error) {
+      console.error(error);
+      alert('Erro', 'Ocorreu um erro. Por favor, tente novamente.');
+    }
+  };
+
+  return (
+    <View style={styles.container}>
+      <Text style={CreatAccont.titulo}>Downtown</Text>
+      <Text style={CreatAccont.cadastro}>Entrega</Text>
+      <TextInput
+        style={CreatAccont.labelNome}
+        placeholder="Digite seu Endereço"
+        value={endereco}
+        onChangeText={setEndereco}
+      />
+      <TextInput
+        style={CreatAccont.labelEmail}
+        placeholder="Digite o número do seu endereço"
+        value={numero}
+        onChangeText={setNumero}
+      />
+      <TextInput
+        style={CreatAccont.labelSenha}
+        placeholder="Digite o complemento (Bloco/Apto)"
+        value={complemento}
+        onChangeText={setComplemento}
+      />
+      <TouchableOpacity style={CreatAccont.button} onPress={concluir}>
+        <Text style={CreatAccont.buttonText}>ENVIAR</Text>
+      </TouchableOpacity>
+    </View>
+  )
+}
 
 
 
@@ -837,9 +943,9 @@ function BagScreen() {
  
   
  
-  const ConfimarCompra = () => {
-      ToastAndroid.show("SUA COMPRA FOI CONCLUIDA", ToastAndroid.TOP)
-      navigation.navigate('Home')
+  const Entrega = () => {
+     
+      navigation.navigate('Endereco')
   }
 
  
@@ -853,7 +959,7 @@ function BagScreen() {
       <View style={bag.ellipse4}></View>
 
       {/* Camisa Lisa */}
-      <Text style={bag.camisaLisa}>Camisa Lisa</Text>
+      <Text style={bag.camisaLisa}>Calça cargo</Text>
 
       {/* R$ 150,00 */}
       <Text style={bag.price}>R$ 150,00</Text>
@@ -867,7 +973,7 @@ function BagScreen() {
       {/* fbc14974f308e5321ad7d2087d3dee34 5 */}
       <View style={bag.imageContainer}>
         <Image
-          source={require('./img/CamisetaOversize.png')}
+          source={require('./img/calcaCargo.png')}
           style={bag.image}
         />
       </View>
@@ -896,7 +1002,7 @@ function BagScreen() {
     </View>
     <View style={bag.containerfinalizarCompra} >
       {/* Rectangle 16 */}
-      <TouchableOpacity style={bag.botaoCompra} onPress={ConfimarCompra}>
+      <TouchableOpacity style={bag.botaoCompra} onPress={Entrega}>
       {/* Finalizar a Comra */}
       <Text style={bag.finalizarCompra}>Finalizar a Compra</Text>
 
@@ -906,7 +1012,16 @@ function BagScreen() {
       
       
   );
+
 }
+
+/////////////////////////////////////// Tela loading //////////////////////////////////////////////
+
+
+
+
+
+
 
 /////////////////////////////////////// NAVEGAÇÃO //////////////////////////////////////////////
 
@@ -916,18 +1031,17 @@ const Stack = createStackNavigator();
 
 
 
-
 export default function App() {
   return (
   <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
-        <Stack.Screen name="Carrinho" component={BagScreen} options={{ headerShown: false }} />
         <Stack.Screen
           name="Login"
           component={LoginScreen}
-          options={{ headerShown: true, title: 'LOGIN' }} 
+          options={{ headerShown: false }} 
         />
+        <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="Carrinho" component={BagScreen} options={{ headerShown: false }} />
         <Stack.Screen
           name="CriarConta"
           component={CreateAccountScreen}
@@ -980,11 +1094,19 @@ export default function App() {
         component={Pedidos}
         options={{headerShown: true, title: 'MINHAS COMPRAS'}}  
         />
+
+        
+        <Stack.Screen
+        name='Endereco'
+        component={Entrega}
+        options={{headerShown: true, title: 'Concluir compras'}}  
+        />
        
       </Stack.Navigator>
     </NavigationContainer>
   );
 }
+
 
 
 /////////////////////////////////////// ESTILOS //////////////////////////////////////////////
